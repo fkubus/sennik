@@ -7,7 +7,7 @@ test("strona główna wyświetla nagłówek i CTA", async ({ page }) => {
     page.getByRole("heading", { name: "Odkryj, co naprawdę mówią Twoje sny" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Przeglądaj sennik" }),
+    page.getByRole("link", { name: "Przeglądaj cały sennik" }),
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Zinterpretuj swój sen z AI" }),

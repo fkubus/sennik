@@ -46,6 +46,7 @@ export interface Database {
           email: string;
         };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Row"]>;
+        Relationships: [];
       };
       credits: {
         Row: {
@@ -60,6 +61,7 @@ export interface Database {
           user_id: string;
         };
         Update: Partial<Database["public"]["Tables"]["credits"]["Row"]>;
+        Relationships: [];
       };
       credit_transactions: {
         Row: {
@@ -81,6 +83,7 @@ export interface Database {
         Update: Partial<
           Database["public"]["Tables"]["credit_transactions"]["Row"]
         >;
+        Relationships: [];
       };
       subscriptions: {
         Row: {
@@ -105,6 +108,7 @@ export interface Database {
           plan: string;
         };
         Update: Partial<Database["public"]["Tables"]["subscriptions"]["Row"]>;
+        Relationships: [];
       };
       stripe_events: {
         Row: {
@@ -114,6 +118,7 @@ export interface Database {
         };
         Insert: Database["public"]["Tables"]["stripe_events"]["Row"];
         Update: Partial<Database["public"]["Tables"]["stripe_events"]["Row"]>;
+        Relationships: [];
       };
       symbol_categories: {
         Row: {
@@ -133,6 +138,7 @@ export interface Database {
         Update: Partial<
           Database["public"]["Tables"]["symbol_categories"]["Row"]
         >;
+        Relationships: [];
       };
       symbols: {
         Row: {
@@ -158,6 +164,7 @@ export interface Database {
           name: string;
         };
         Update: Partial<Database["public"]["Tables"]["symbols"]["Row"]>;
+        Relationships: [];
       };
       blog_posts: {
         Row: {
@@ -180,6 +187,7 @@ export interface Database {
           title: string;
         };
         Update: Partial<Database["public"]["Tables"]["blog_posts"]["Row"]>;
+        Relationships: [];
       };
       interpretations: {
         Row: {
@@ -201,6 +209,7 @@ export interface Database {
           dream_text_encrypted: string;
         };
         Update: Partial<Database["public"]["Tables"]["interpretations"]["Row"]>;
+        Relationships: [];
       };
       dream_journal: {
         Row: {
@@ -222,7 +231,12 @@ export interface Database {
           dream_text_encrypted: string;
         };
         Update: Partial<Database["public"]["Tables"]["dream_journal"]["Row"]>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }

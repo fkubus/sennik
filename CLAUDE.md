@@ -62,7 +62,10 @@ Przed każdym commitem: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
                        # poza drobnymi poprawkami — patrz components.json)
 /components/site       # własne komponenty złożone z komponentów ui
 /lib/supabase         # klienci: client.ts (przeglądarka), server.ts (SSR,
-                       # respektuje RLS), admin.ts (service_role, tylko serwer)
+                       # respektuje RLS, wymaga cookies() — NIE używać w
+                       # generateStaticParams/ISR poza requestem), public.ts
+                       # (anon bez cookies — do publicznych odczytów przy
+                       # SSG/ISR), admin.ts (service_role, tylko serwer)
 /lib/ai               # system-prompt.ts, klient Anthropic, wykrywanie kryzysu
 /lib/stripe           # klient Stripe, konfiguracja planów/cen
 /lib/validations      # schematy Zod
