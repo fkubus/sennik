@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   alternates: { canonical: `${siteConfig.url}/sennik` },
 };
 
-const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("");
-
 export default async function SennikIndexPage() {
   const [symbols, categories] = await Promise.all([
     getPublishedSymbols(),
@@ -21,7 +19,7 @@ export default async function SennikIndexPage() {
   const grouped = new Map<string, typeof symbols>();
   for (const symbol of symbols) {
     const letter = symbol.name[0]?.toLowerCase() ?? "#";
-    const key = ALPHABET.includes(letter) ? letter : "#";
+    const key = /\p{L}/u.test(letter) ? letter : "#";
     grouped.set(key, [...(grouped.get(key) ?? []), symbol]);
   }
 
