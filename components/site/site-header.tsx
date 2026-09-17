@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { AuthStatus } from "@/components/site/auth-status";
 
 const NAV_LINKS = [
   { href: "/sennik", label: "Sennik" },
@@ -27,9 +28,12 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Button asChild size="sm">
-          <Link href="/interpretacja">Zinterpretuj sen</Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          <AuthStatus />
+          <Button asChild size="sm">
+            <Link href="/interpretacja">Zinterpretuj sen</Link>
+          </Button>
+        </div>
       </div>
     </header>
   );

@@ -97,6 +97,11 @@ Przed każdym commitem: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
 - Domyślny motyw: **ciemny** (klasa `.dark` na `<html>`, patrz
   `app/layout.tsx`), jasny opcjonalny przez przełącznik (`next-themes`,
   etap 2/3).
+- **`app/layout.tsx` (i komponenty w nim, np. `SiteHeader`) nie mogą używać
+  `lib/supabase/server.ts`.** Root layout owija każdą stronę — wywołanie
+  `cookies()` tam sprawiłoby, że cała witryna (łącznie ze statycznymi
+  stronami symboli) przestałaby być statyczna. Stan zalogowania w nagłówku
+  sprawdza `components/site/auth-status.tsx` po stronie klienta.
 - Komponenty shadcn/ui dodawać przez `pnpm dlx shadcn@latest add <nazwa>`,
   nie kopiować ręcznie.
 

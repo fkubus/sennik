@@ -1,18 +1,12 @@
 import "server-only";
-import { Ratelimit } from "@upstash/ratelimit";
+import { Ratelimit, type Duration } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
 const isConfigured = Boolean(
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN,
 );
 
-const interpretRatelimit = isConfigured
-  ? new Ratelimit({
-      redis: Redis.fromEnv(),
-      limiter: Ratelimit.slidingWindow(5, "10 m"),
-      prefix: "sennik:interpret",
-    })
-  : null;
+const redis = isConfigured ? Redis.fromEnv() : null;
 
 export interface RateLimitResult {
   success: boolean;
@@ -25,13 +19,26 @@ export interface RateLimitResult {
  * pominięty — endpoint działa, ale bez ochrony przed nadużyciem. W produkcji
  * UPSTASH_REDIS_REST_URL/TOKEN muszą być ustawione (patrz .env.example).
  */
-export async function checkInterpretRateLimit(
-  identifier: string,
-): Promise<RateLimitResult> {
-  if (!interpretRatelimit) {
-    return { success: true, limit: Infinity, remaining: Infinity };
-  }
+function createRateLimiter(prefix: string, limit: number, window: Duration) {
+  const limiter = redis
+    ? new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(limit, window),
+        prefix: `sennik:${prefix}`,
+      })
+    : null;
 
-  const result = await interpretRatelimit.limit(identifier);
-  return result;
+  return async (identifier: string): Promise<RateLimitResult> => {
+    if (!limiter) {
+      return { success: true, limit: Infinity, remaining: Infinity };
+    }
+    return limiter.limit(identifier);
+  };
 }
+
+export const checkInterpretRateLimit = createRateLimiter(
+  "interpret",
+  5,
+  "10 m",
+);
+export const checkAuthRateLimit = createRateLimiter("auth", 5, "15 m");
